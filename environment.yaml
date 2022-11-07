@@ -1,0 +1,29 @@
+name: torch
+channels:
+    - pytorch
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.8
+    - pytorch=1.11
+    - torchvision
+    - torchaudio
+    - cudatoolkit=11.3
+    - pytorch-lightning
+    - torchmetrics=0.8
+    - pandas
+    - scikit-learn # =0.24
+    - seaborn
+    - jupyter
+    - pip
+    - pip:
+          - tinydb
+          - ray[default]
+          - hydra-core
+          - hydra-ray-launcher
+          - hydra-optuna-sweeper
+          - rich
+          - hydra_colorlog
+          - python-dotenv
+          - category_encoders
+          - xlrd
