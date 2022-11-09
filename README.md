@@ -18,6 +18,7 @@ This repository is the official implementation of
 To install requirements:
 ```shell
 conda env create --file environment.yaml
+conda activate torch
 ```
 
 ### To Run
