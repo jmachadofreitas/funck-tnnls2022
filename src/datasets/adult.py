@@ -377,26 +377,3 @@ class AdultCommittee(TabularCommittee):
         }
         super().__init__(data_dict, recon_idx)
         self.logger = get_logger(__name__)
-
-
-if __name__ == "__main__":
-    from sklearn.dummy import DummyClassifier, DummyRegressor
-
-    datasets_root = "datasets/"
-
-    # dm = AdultDataModule(datasets_root, batch_size=32, num_samples_per_class=100)
-    # dm.setup()
-    # print(dm.get_model_kwargs())
-    # dl1, dl2 = dm.train_dataloader()
-    # print(len(dl1.dataset), len(dl2.dataset))
-    # print(set(dl1.sampler) == set(dl2.sampler))
-
-    dm = AdultDataModule(datasets_root, batch_size=32, num_samples_per_class=-1)
-    dm.setup()
-    print(dm.get_model_kwargs())
-    dl = dm.train_dataloader()
-    for idx, b in enumerate(dl):
-        print(b[1], b[2])
-        if idx == 3:
-            break
-

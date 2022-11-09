@@ -260,13 +260,6 @@ class TabularCommittee(EvaluationCommittee):
         """ Evaluate representations """
         results = list()
 
-        # Save predictive posterior weights
-        # Assumes there is a single linear layer
-        # if hasattr(model, "predictor"):
-        #     for param in model.predictor.parameters():
-        #         np.savetxt("predictor_weights.csv", param.squeeze().detach().numpy(), delimiter=",")
-        #         break
-
         # Predicton and Fairness
         # Representations
         for target, estimator in self.prediction_fairness_estimators:

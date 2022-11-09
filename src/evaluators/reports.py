@@ -414,21 +414,3 @@ class SSLTradeoffDB(BaseDB):
         semiibsi = self.where_semiibsi(**kwargs)
         semicpfsi = self.where_semicpfsi(**kwargs)
         return vfae, cpf, ibsi, cpfsi, semivfae, semiibsi, semicpfsi
-
-
-class ConditionalGenerationDB(BaseDB):
-    pass
-
-
-def create_table():
-    """ Create LaTeX table from pandas
-
-    References
-        * https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_latex.html
-    """
-    pass
-
-
-if __name__ == '__main__':
-    db = AlphaBetaTradeoffDB("experiments/best.tinydb")
-    print(db.aggregate(db.all(), "accuracy"))

@@ -333,15 +333,3 @@ class DutchCommittee(TabularCommittee):
         }
         super().__init__(data_dict, recon_idx)
         self.logger = get_logger(__name__)
-
-
-if __name__ == "__main__":
-    datasets_root = Path("datasets/")
-    raw = load_raw_data(dataset_dir="datasets/Dutch")
-    # p = DutchPreprocessor(datasets_root / "Dutch")
-    # df_tr, df_te = p(raw)
-    d = Dutch(train=False)
-    print(d[0][0].shape)
-
-
-

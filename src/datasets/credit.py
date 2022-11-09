@@ -353,14 +353,3 @@ class CreditCommittee(TabularCommittee):
         }
         super().__init__(data_dict)
         self.logger = get_logger(__name__)
-
-
-if __name__ == "__main__":
-    datasets_root = Path("datasets/")
-    raw = load_raw_data(dataset_dir="datasets/Credit")
-    print(raw)
-    p = CreditPreprocessor(datasets_root / "Credit")
-    df_tr, df_te = p(raw)
-    d = Credit(train=False)[0]
-    print(d[0].shape)
-

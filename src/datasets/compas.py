@@ -377,14 +377,3 @@ class COMPASCommittee(TabularCommittee):
         super().__init__(data_dict)
         self.logger = get_logger(__name__)
 
-
-if __name__ == "__main__":
-    from sklearn.dummy import DummyClassifier, DummyRegressor
-
-    datasets_root = "datasets/"
-    dm = COMPASDataModule(datasets_root, batch_size=32, num_samples_per_class=100)
-    dm.setup()
-    print(dm.get_model_kwargs())
-    dl1, dl2 = dm.train_dataloader()
-    print(len(dl1), len(dl2))
-    print(set(dl1.sampler) == set(dl1.sampler))

@@ -9,7 +9,6 @@ from torch.utils.data import TensorDataset, DataLoader
 
 
 def dataloader2numpy(dataloader):
-    """ TODO: make this for any number of batch elements. Inspect a batch """
     batches = {key: list() for key in ["x", "y", "s"]}
     for batch in dataloader:
         batches["x"].append(batch[0])
@@ -81,7 +80,6 @@ def reshape_results(results, metadata=None):
 
 
 def get_z(model, x):
-    # TODO: improve
     model.eval()
     with torch.no_grad():
         if model.device == torch.device("cuda:0"):

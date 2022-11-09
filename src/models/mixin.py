@@ -571,12 +571,3 @@ class ModelMixin(object):
         fairness_metrics = self.metrics[stage]["fairness"].compute()
         reconstruction_metrics = self.metrics[stage]["reconstruction"].compute()
         return prediction_metrics, fairness_metrics, reconstruction_metrics
-
-
-class AlphaBetaTradeoffMixin(ModelMixin):
-
-    def __init__(self):
-        """ Same metrics and evaluators """
-        pass
-
-# TODO: Add Mixin per experiment type?

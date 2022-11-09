@@ -51,52 +51,6 @@ class EqualizedOdds(Metric):
         return torch.max(self.eo[0].compute(), self.eo[1].compute())
 
 
-class AccuracyByGroup(Metric):
-    full_state_update = False
-
-    def __init__(self):
-        """
-        Computer the accuracy gap for the case when y and s are binary
-        """
-        super().__init__()
-        # num_classes = 2
-        self.accuracies = [tm.Accuracy() for _ in range(2)]
-
-    def update(self, preds: Tensor, target: Tensor, context: Tensor):
-        assert preds.shape == target.shape == context.shape
-        s0, s1 = context == 0, context == 1
-        if torch.any(s0):
-            self.accuracies[0].update(preds[s0], target[s0])
-        if torch.any(s1):
-            self.accuracies[1].update(preds[s1], target[s1])
-
-    def compute(self):
-        return torch.tensor([self.accuracies[0].compute(), self.accuracies[1].compute()])
-
-
-class F1ScoreByGroup(Metric):
-    full_state_update = False
-
-    def __init__(self):
-        """
-        Computer the accuracy gap for the case when y and s are binary
-        """
-        super().__init__()
-        # num_classes = 2
-        self.f1scores = [tm.F1Score() for _ in range(2)]
-
-    def update(self, preds: Tensor, target: Tensor, context: Tensor):
-        assert preds.shape == target.shape == context.shape
-        s0, s1 = context == 0, context == 1
-        if torch.any(s0):
-            self.f1scores[0].update(preds[s0], target[s0])
-        if torch.any(s1):
-            self.f1scores[1].update(preds[s1], target[s1])
-
-    def compute(self):
-        return torch.tensor([self.f1scores[0].compute(), self.f1scores[1].compute()])
-
-
 class ErrorGap(Metric):
     full_state_update = True
     # full_state_update = False
@@ -119,29 +73,6 @@ class ErrorGap(Metric):
 
     def compute(self):
         return torch.abs(self.accuracies[0].compute() - self.accuracies[1].compute())
-
-
-class WorstAccuracy(Metric):
-    full_state_update = False
-
-    def __init__(self):
-        """
-        Computer the accuracy gap for the case when y and s are binary
-        """
-        super().__init__()
-        # num_classes = 2
-        self.accuracies = [tm.Accuracy() for _ in range(2)]
-
-    def update(self, preds: Tensor, target: Tensor, context: Tensor):
-        assert preds.shape == target.shape == context.shape
-        s0, s1 = context == 0, context == 1
-        if torch.any(s0):
-            self.accuracies[0].update(preds[s0], target[s0])
-        if torch.any(s1):
-            self.accuracies[1].update(preds[s1], target[s1])
-
-    def compute(self):
-        return torch.mininum([self.accuracies[0].compute(), self.accuracies[1].compute()])
 
 
 class MetricByContext(Metric):
@@ -181,34 +112,3 @@ class MetricGap(Metric):
 
     def compute(self):
         return torch.abs(self.metrics[0].compute() - self.metrics[1].compute())
-
-
-class WorstMetric(Metric):
-    full_state_update = False
-
-    def __init__(self, num_groups: int, metric_cls: Metric, *args, **kwargs):
-        super().__init__()
-        self.num_groups = num_groups
-        self.metrics = [metric_cls(*args, **kwargs) for _ in range(num_groups)]
-
-    def update(self, preds: Tensor, target: Tensor, context: torch.Tensor):
-        assert preds.shape == target.shape == context.shape
-        cvals = torch.unique(context)
-        for cval in cvals:
-            bool_idx = context == cval
-            if torch.any(bool_idx):
-                self.metrics[cval.int().item()].update(preds[bool_idx], target[bool_idx])
-
-    def compute(self):
-        return min([self.metrics[idx].compute() for idx in range(self.num_groups)])
-
-
-if __name__ == "__main__":
-    m = ErrorGap()
-    m.update(torch.tensor([1, 0, 1]), torch.tensor([1, 1, 1]), torch.tensor([1, 0, 1]))
-    m.update(torch.tensor([1, 0, 1]), torch.tensor([1, 1, 1]), torch.tensor([1, 0, 1]))
-    print(m.compute())
-    m.reset()
-    m.update(torch.tensor([1, 0, 1]), torch.tensor([1, 1, 1]), torch.tensor([1, 0, 1]))
-    m.update(torch.tensor([1, 0, 1]), torch.tensor([1, 1, 1]), torch.tensor([0, 1, 0]))
-    print(m.compute())

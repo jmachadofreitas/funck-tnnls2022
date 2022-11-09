@@ -20,14 +20,6 @@ from .shared import *
 
 Number = Union[int, float]
 
-# SK_ESTIMATORS = {
-#     "dummy": ["DummyClassifier"],
-#     "lr": ["LinearRegression", "LogisticRegression"],
-#     "rf": ["RandomForestRegressor", "RandomForestClassifier"],
-#     "svm": ["SVR", "SVC"],
-# }
-
-
 SkEstimator = Union[
     DummyRegressor,
     DummyClassifier,
